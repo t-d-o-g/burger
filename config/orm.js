@@ -29,18 +29,43 @@ objToSql = ob => {
 
 
 const orm = {
-    selectAll: (tableInput, cb) => {
-        let queryString = ``;
-
+    selectAll: (tableInput, callback) => {
+        let queryString = `SELECT * FROM ${tableInput};`;
+        connection.query(queryString, (err, result) => {
+            if (err) throw err;
+            callback(result); 
+        });
     },
-    insertOne: (table, cols, vals, cb) => {
-        let queryString = ``;
+    insertOne: (table, cols, vals, callback) => {
+        let queryString = `INSERT INTO ${table}`;
 
+        queryString += " (";
+        queryString += cols.toString();
+        queryString += ") ";
+        queryString += "VALUES (";
+        queryString += printQuestionMarks(vals.length);
+        queryString += ") ";
+
+        console.log(queryString);
+        connection.query(queryString, vals, (err, result) => {
+            if (err) throw err; 
+            callback(result);
+        });
     },
-    updateOne: (table, objColVals, condition, cb) => {
-        let queryString = ``;
+    updateOne: (table, objColVals, condition, callback) => {
+        let queryString = `UPDATE ${table}`;
 
+        queryString += ' SET ';
+        queryString += objToSql(objColVals);
+        queryString += ' WHERE ';
+        queryString += condition;
+
+        console.log(queryString);
+        connection.query(queryString, (err, result) => {
+            if (err) throw err;
+            callback(result);
+        });
     }
-}
+};
 
 module.exports = orm;
