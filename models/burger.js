@@ -3,17 +3,17 @@ const orm = require('../config/orm');
 
 const burger = {
     selectAll: callback => {
-        orm.selectAll('burgers', res => {
+        orm.selectAll('heroku_bf59787b80b0d4b.burgers', res => {
             callback(res);
         });
     },
     insertOne: (cols, vals, callback) => {
-        orm.insertOne('burgers', cols, vals, res => {
+        orm.insertOne('heroku_bf59787b80b0d4b.burgers', cols, vals, res => {
             callback(res);
         });
     },
     updateOne: (objColVals, condition, callback) => {
-        orm.updateOne('burgers', objColVals, condition, res => {
+        orm.updateOne('heroku_bf59787b80b0d4b.burgers', objColVals, condition, res => {
             callback(res);
         });
     }
