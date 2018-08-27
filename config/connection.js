@@ -11,6 +11,7 @@ if (env === 'local') {
         database: 'heroku_bf59787b80b0d4b'
     });
 } else if (env === 'production') {
+    connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
     handleDisconnect = connection => {
         connection.on('error', err => {
             if (!err.fatal) {
