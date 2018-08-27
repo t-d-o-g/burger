@@ -16,12 +16,25 @@ if (env === 'local') {
     console.error('Invalid environment value');
 }
 
-connection.connect(err => {
-    if (err) {
-        console.error(`error connecting: ${err.stack}`);
-        return;
-    }
-    console.log(`connected as id ${connection.threadId}`);
-});
+handleDisconnect = () => {
+    connection.connect(err => {
+        if (err) {
+            console.error(`error connecting: ${err.stack}`);
+            setTimeout(handleDisconnect, 2000);
+            // return;
+        }
+        console.log(`connected as id ${connection.threadId}`);
+    });
+
+    connection.on('error', err => {
+        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+            handleDisconnect();
+        } else {
+            throw err;
+        }
+    });
+}
+
+handleDisconnect();
 
 module.exports = connection;
