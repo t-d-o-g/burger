@@ -15,7 +15,7 @@ if (env === 'local') {
 } else {
     console.error('Invalid environment value');
 }
-
+/*
 handleDisconnect = () => {
     connection.connect(err => {
         if (err) {
@@ -36,5 +36,6 @@ handleDisconnect = () => {
 }
 
 handleDisconnect();
+*/
 
 module.exports = connection;
