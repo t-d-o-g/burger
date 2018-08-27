@@ -8,12 +8,12 @@ if (env === 'local') {
         port: 3306,
         user: 'root',
         password: 'password',
-        database: 'burgers_db'
+        database: 'heroku_bf59787b80b0d4b'
     });
 } else if (env === 'production') {
     connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
 } else {
-    console.error('Unknown NODE_ENV value');
+    console.error('Invalid environment value');
 }
 
 connection.connect(err => {
