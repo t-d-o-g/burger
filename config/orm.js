@@ -30,9 +30,12 @@ objToSql = ob => {
 const orm = {
     selectAll: (tableInput, callback) => {
         let queryString = `SELECT * FROM ${tableInput};`;
-        connection.query(queryString, (err, result) => {
-            if (err) throw err;
-            callback(result); 
+        connection.getConnection((err, connection) => {
+            connection.query(queryString, (err, result) => {
+                if (err) throw err;
+                callback(result); 
+                connection.release();
+            });
         });
     },
     insertOne: (table, cols, vals, callback) => {
@@ -49,6 +52,7 @@ const orm = {
         connection.query(queryString, vals, (err, result) => {
             if (err) throw err; 
             callback(result);
+            connection.release();
         });
     },
     updateOne: (table, objColVals, condition, callback) => {
@@ -63,6 +67,7 @@ const orm = {
         connection.query(queryString, (err, result) => {
             if (err) throw err;
             callback(result);
+            connection.release();
         });
     }
 };
