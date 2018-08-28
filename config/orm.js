@@ -32,8 +32,9 @@ const orm = {
             connection.query(queryString, (err, result) => {
                 if (err) throw err;
                 callback(result); 
-                connection.release();
             });
+                if (err) throw err;
+                connection.release();
         });
     },
     insertOne: (table, cols, vals, callback) => {
@@ -51,8 +52,9 @@ const orm = {
             connection.query(queryString, vals, (err, result) => {
                 if (err) throw err; 
                 callback(result);
-                connection.release();
             });
+                if (err) throw err; 
+                connection.release();
         });
     },
     updateOne: (table, objColVals, condition, callback) => {
@@ -68,8 +70,9 @@ const orm = {
             connection.query(queryString, (err, result) => {
                 if (err) throw err;
                 callback(result);
-                connection.release();
             });
+                if (err) throw err;
+                connection.release();
         });
     }
 };
