@@ -12,48 +12,10 @@ if (env === 'local') {
     });
 } else if (env === 'production') {
     connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
-    handleDisconnect = connection => {
-        connection.on('error', err => {
-            if (!err.fatal) {
-                return
-            }
-
-            if (err.code !== 'PROTOCOL_CONNECTION_LOST') {
-                throw err;
-            }
-
-            console.log(`Reconnecting lost connection: ${err.stack}`);
-            connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
-            handleDisconnect(connection);
-            connection.connect();
-        });
-    }
-
-    handleDisconnect(connection);
 } else {
     console.error('Invalid environment value');
 }
-/*
-handleDisconnect = () => {
-    connection.connect(err => {
-        if (err) {
-            console.error(`error connecting: ${err.stack}`);
-            setTimeout(handleDisconnect, 2000);
-            // return;
-        }
-        console.log(`connected as id ${connection.threadId}`);
-    });
 
-    connection.on('error', err => {
-        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-            handleDisconnect();
-        } else {
-            throw err;
-        }
-    });
-}
-
-handleDisconnect();
-*/
+connection.connect();
 
 module.exports = connection;
