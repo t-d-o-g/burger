@@ -1,4 +1,4 @@
-const connection = require('./connection');
+const pool = require('./pool');
 
 printQuestionMarks = num => {
     const arr = [];
@@ -6,7 +6,6 @@ printQuestionMarks = num => {
     for (let i = 0; i < num; i++) {
         arr.push("?");
     }
-
     return arr.toString();
 }
 
@@ -23,14 +22,13 @@ objToSql = ob => {
             arr.push(`${key}=${value}`);
         }
     }
-
     return arr.toString();
 }
 
 const orm = {
     selectAll: (tableInput, callback) => {
         let queryString = `SELECT * FROM ${tableInput};`;
-        connection.getConnection((err, connection) => {
+        pool.getConnection((err, connection) => {
             connection.query(queryString, (err, result) => {
                 if (err) throw err;
                 callback(result); 
@@ -49,10 +47,12 @@ const orm = {
         queryString += ") ";
 
         console.log(queryString);
-        connection.query(queryString, vals, (err, result) => {
-            if (err) throw err; 
-            callback(result);
-            connection.release();
+        pool.getConnection((err, connection) => {
+            connection.query(queryString, vals, (err, result) => {
+                if (err) throw err; 
+                callback(result);
+                connection.release();
+            });
         });
     },
     updateOne: (table, objColVals, condition, callback) => {
@@ -64,10 +64,12 @@ const orm = {
         queryString += condition;
 
         console.log(queryString);
-        connection.query(queryString, (err, result) => {
-            if (err) throw err;
-            callback(result);
-            connection.release();
+        pool.getConnection((err, connection) => {
+            connection.query(queryString, (err, result) => {
+                if (err) throw err;
+                callback(result);
+                connection.release();
+            });
         });
     }
 };
