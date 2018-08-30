@@ -1,7 +1,7 @@
 const orm = require('../config/orm');
 
 
-const burger = {
+const burgersModel = {
     selectAll: callback => {
         orm.selectAll('heroku_bf59787b80b0d4b.burgers', res => {
             callback(res);
@@ -19,4 +19,4 @@ const burger = {
     }
 };
 
-module.exports = burger;
+module.exports = burgersModel;

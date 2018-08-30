@@ -4,12 +4,22 @@
 
 <h1>Eat-Da-Burger!</h1>
 
-<form>
+<div class="text-center col-3" id="burgerList">
+  <h2>Burgers</h2>
+  <ul class="list-group">
+    {{#each burgers}}
+      {{> burgers/burger-block}}
+    {{/each}}
+  </ul>
+</div>
+
+
+<form class="input-form">
   <div class="container text-center">
     <div class="form-group">
       <div class="form-group">
         <label for="burgerInput"></label>
-        <textarea class="form-control m-auto" id="burgerInput" rows="3"></textarea>
+        <textarea class="form-control m-auto" id="burgerInput" rows="4"></textarea>
       </div>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
